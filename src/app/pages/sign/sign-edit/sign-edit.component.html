@@ -1,0 +1,59 @@
+<button mat-raised-button color="accent" style="float: right"  (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+    <span>new</span>
+</button>
+<form class="example-container" [formGroup]="form" #frmSign="ngForm" (submit)="operate()">
+    
+    <div [hidden]="true">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="ID" required formControlName="idSign">
+        </mat-form-field>
+    </div>
+    
+    <mat-form-field>
+        <input matInput placeholder="Patient" [matAutocomplete]="autoPatient" [formControl]="patientControl" formControlName="patient">
+        <mat-autocomplete #autoPatient="matAutocomplete" [displayWith]="showPatient">
+            <mat-option *ngFor="let p of patientsFiltered$ | async" [value]="p">
+                {{p.firstName}} {{p.lastName}}
+            </mat-option>
+        </mat-autocomplete>
+
+        
+
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Select a date</mat-label>
+        <input matInput [matDatepicker]="picker" [max]="maxDate" formControlName="registerDate" >
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <small *ngIf="f['registerDate'].errors?.['required'] && f['registerDate'].touched" class="invalid">Is required</small>
+    </mat-form-field>
+    
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Temperature" required formControlName="temperature">
+        <small *ngIf="f['temperature'].errors?.['required'] && f['temperature'].touched" class="invalid">Is required</small>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Pulse" required formControlName="pulse">
+        <small *ngIf="f['pulse'].errors?.['required'] && f['pulse'].touched" class="invalid">Is required</small>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Respiratory Rate" required formControlName="respiratoryRate">
+        <small *ngIf="f['respiratoryRate'].errors?.['required'] && f['respiratoryRate'].touched" class="invalid">Is required</small>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="frmSign.invalid">
+        <mat-icon>done</mat-icon>
+        <span>Done</span>
+    </button>
+
+    <button mat-raised-button color="accent" type="button" routerLink="/pages/sign">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+    </button>
+
+</form>
